@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: nfs-demo-map-folder
+  name: nfs-demo-nfs-direct

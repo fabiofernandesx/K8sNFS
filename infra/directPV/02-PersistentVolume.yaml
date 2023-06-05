@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: map-folder-pv
+  name: nfs-direct-pv
 spec:
-  storageClassName: manual
+  storageClassName: nfs-direct
   capacity:
     storage: 10Mi
   accessModes:
     - ReadWriteMany
-  hostPath:
-    path: '/var/nfs/host-mapped'
+  nfs:
+    path: /mnt/cube-pool/k8s-nfs/nfs-direct
+    server: 10.0.0.26

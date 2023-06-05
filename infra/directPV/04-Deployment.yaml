@@ -2,26 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: map-folder-site
-  namespace: nfs-demo-map-folder
-  name: map-folder-nginx
+    app: nfs-direct-site
+  namespace: nfs-demo-nfs-direct
+  name: nfs-direct-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: map-folder-site
+      app: nfs-direct-site
   template:
     metadata:
       labels:
-        app: map-folder-site
+        app: nfs-direct-site
     spec:
       volumes:
-        - name: map-folder-nfs
+        - name: nfs-direct-nfs
           persistentVolumeClaim:
-            claimName: map-folder-pvc
+            claimName: nfs-direct-pvc
       containers:
         - image: nginx
-          name: map-folder-site
+          name: nfs-direct-site
           volumeMounts:
-            - name: map-folder-nfs
+            - name: nfs-direct-nfs
               mountPath: /usr/share/nginx/html
