@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: map-folder-site
+  namespace: nfs-demo-map-folder
+  name: map-folder-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: map-folder-site
+  template:
+    metadata:
+      labels:
+        app: map-folder-site
+    spec:
+      volumes:
+        - name: map-folder-nfs
+          persistentVolumeClaim:
+            claimName: map-folder-pvc
+      containers:
+        - image: nginx
+          name: map-folder-site
+          volumeMounts:
+            - name: map-folder-nfs
+              mountPath: /usr/share/nginx/html
