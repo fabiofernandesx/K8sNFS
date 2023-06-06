@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  namespace: nfs-demo-storage-class
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          volumeMounts:
+            - name: nfs-client-storageclass
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: heffenvox.com/nfs
+            - name: NFS_SERVER
+              value: 10.0.0.26
+            - name: NFS_PATH
+              value: /mnt/cube-pool/k8s-nfs/nfs-storageclass
+      volumes:
+        - name: nfs-client-storageclass
+          nfs:
+            server: 10.0.0.26
+            path: /mnt/cube-pool/k8s-nfs/nfs-storageclass
